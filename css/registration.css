@@ -1,0 +1,17 @@
+body{
+    background-color: #C0C0C0;
+}
+
+.title{
+    background-color: white;
+    padding:15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgb(88, 88, 88);
+}
+
+.form-area{
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgb(88, 88, 88);
+}
