@@ -116,7 +116,7 @@ if (isset($_POST['submit'])) {
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./dashboard.php"><i class="fa-solid fa-plus"></i> Add meetings</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="far fa-bell"></i> Notifications&nbsp;&nbsp;<span class="badge badge-pill badge-danger">0</span></a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="fas fa-birthday-cake"></i> Birthdays</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="fa-solid fa-user-graduate"></i> Student Info</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
             </div>
         </div>
@@ -148,6 +148,17 @@ if (isset($_POST['submit'])) {
                     <div class="row">
                         <div class="col-md-12">
                             <?php
+                            //success message
+                            if (isset($_GET['status']) && ($_GET['status'] == 'success')) {
+                                echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">';
+                                echo '<strong>Meeting added successfully!</strong><br>';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+                                echo '<span aria-hidden="true">&times;</span>';
+                                echo '</button>';
+                                echo '</div>';
+                            }
+
+                            // errors
                             if (!empty($errors)) {
                                 echo '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">';
                                 echo '<strong>There is error(s) here!</strong><br>';
