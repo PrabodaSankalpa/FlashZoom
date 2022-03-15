@@ -84,27 +84,84 @@ if (!isset($_SESSION['user_id'])) {
                         </div>
                     </div>
                     <!-- cards -->
-                    <div class="row mt-5">
-                        <div class="card text-white bg-dark col-md-3">
-                            <h5 class="card-header">ICT</h5>
-                            <div class="card-body">
-                                <h5 class="card-title">SE Meeting</h5>
-                                <ul>
-                                    <li>Start Time : 03.00</li>
-                                    <li>End Time : 05.00</li>
-                                    <li>Schedule : Every Tuesday</li>
-                                    <li>Host Name : Dr. Nalaka Lankasena</li>
-                                    <li>Meeting ID : 1234534567</li>
-                                    <li>Passcode : Abc@1234</li>
-                                </ul>
-                                <a href="https://www.google.lk/" target="_blank" class="btn btn-primary"><i class="fa-solid fa-angles-right"></i> Join Now</a>
-                            </div>
-                        </div>
+                    <div class="d-flex flex-wrap justify-content-around" id="linkCard">
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- filter script -->
+    <script>
+        //When window load
+        window.onload = function() {
+            let xhr = new XMLHttpRequest();
+            let endPoint = './filter.php?selection=All';
+            xhr.open('GET', endPoint, true);
+
+            xhr.onload = function() {
+                if (this.status == 200) {
+                    let data = JSON.parse(this.responseText);
+                    let output = '';
+
+                    for (let i in data) {
+                        output += '<div class="card text-white bg-dark m-2">' +
+                            '<div class="card-header">' + data[i].meetingGroup + '</div>' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + data[i].Title + '</h5>' +
+                            '<ul>' +
+                            '<li>Start Time : ' + data[i].Start_Time + '</li>' +
+                            '<li>End Time : ' + data[i].End_Time + '</li>' +
+                            '<li>Schedule : ' + data[i].Schedule + '</li>' +
+                            '<li>Host Name : ' + data[i].Host_Name + '</li>' +
+                            '<li>Meeting ID : ' + data[i].Meeting_ID + '</li>' +
+                            '<li>Passcode : ' + data[i].Passcode + '</li>' +
+                            '</ul>' +
+                            '<a href="' + data[i].Link + '" target="_blank" class="btn btn-primary"><i class="fa-solid fa-angles-right"></i> Join Now 📡</a>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                    document.getElementById('linkCard').innerHTML = output;
+                }
+            }
+            xhr.send();
+        };
+
+        //When user select an option
+        document.getElementById("filter").addEventListener("change", function() {
+            let xhr = new XMLHttpRequest();
+            let endPoint = './filter.php?selection=' + this.value;
+            xhr.open('GET', endPoint, true);
+
+            xhr.onload = function() {
+                if (this.status == 200) {
+                    let data = JSON.parse(this.responseText);
+                    let output = '';
+
+                    for (let i in data) {
+                        output += '<div class="card text-white bg-dark m-2">' +
+                            '<div class="card-header">' + data[i].meetingGroup + '</div>' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + data[i].Title + '</h5>' +
+                            '<ul>' +
+                            '<li>Start Time : ' + data[i].Start_Time + '</li>' +
+                            '<li>End Time : ' + data[i].End_Time + '</li>' +
+                            '<li>Schedule : ' + data[i].Schedule + '</li>' +
+                            '<li>Host Name : ' + data[i].Host_Name + '</li>' +
+                            '<li>Meeting ID : ' + data[i].Meeting_ID + '</li>' +
+                            '<li>Passcode : ' + data[i].Passcode + '</li>' +
+                            '</ul>' +
+                            '<a href="' + data[i].Link + '" target="_blank" class="btn btn-primary"><i class="fa-solid fa-angles-right"></i> Join Now 📡</a>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                    document.getElementById('linkCard').innerHTML = output;
+                }
+            }
+            xhr.send();
+        });
+    </script>
 
 
     <!-- dispaly time on navbar -->
