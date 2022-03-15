@@ -76,9 +76,11 @@ if (isset($_POST['submit'])) {
         } else {
             $hostName = mysqli_real_escape_string($connection, $_POST['hostName']);
         }
+        $meetingGroup = mysqli_real_escape_string($connection, $_POST['meetingGroup']);
+        $isActive = mysqli_real_escape_string($connection, $_POST['activate']);
 
         //Prepare a Query
-        $query = "INSERT INTO zoomlinks (Title, Start_Time, End_Time, Date, Schedule, Meeting_ID, Passcode, Link, Host_Name) VALUES ('{$title}', '{$startTime}', '{$endTime}', '{$date}', '{$schedule}', '{$meetingID}', '{$passcode}', '{$link}', '{$hostName}');";
+        $query = "INSERT INTO zoomlinks (Title, Start_Time, End_Time, Date, Schedule, Meeting_ID, Passcode, Link, Host_Name, meetingGroup, is_Active) VALUES ('{$title}', '{$startTime}', '{$endTime}', '{$date}', '{$schedule}', '{$meetingID}', '{$passcode}', '{$link}', '{$hostName}', '{$meetingGroup}', '{$isActive}');";
         $result_set = mysqli_query($connection, $query);
 
         if ($result_set) {
@@ -112,9 +114,10 @@ if (isset($_POST['submit'])) {
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light"><strong>FlashZoom</strong></div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!"><i class="far fa-bell"></i> Notifications</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!"><i class="fas fa-birthday-cake"></i> Birthdays</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!"><i class="fas fa-user-cog"></i> Settings</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./dashboard.php"><i class="fa-solid fa-plus"></i> Add meetings</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="far fa-bell"></i> Notifications&nbsp;&nbsp;<span class="badge badge-pill badge-danger">0</span></a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="fas fa-birthday-cake"></i> Birthdays</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
             </div>
         </div>
         <!-- Page content wrapper-->
@@ -126,8 +129,8 @@ if (isset($_POST['submit'])) {
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                            <li class="nav-item active"><a class="nav-link" href="#">Profile</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../../routes/logout.php">Logout</a></li>
+                            <li class="nav-item"><span class="nav-link" id="time">Time</span></li>
+                            <li class="nav-item"><a class="nav-link" href="../../routes/logout.php"><i class="fa-solid fa-power-off"></i> Logout</a></li>
 
                         </ul>
                     </div>
@@ -135,10 +138,13 @@ if (isset($_POST['submit'])) {
             </nav>
             <!-- Page content-->
             <div class="container-fluid">
-                <h1 class="mt-4">Hello, <?php echo $_SESSION['user_title'] . ' ' . $_SESSION['user_firstName']; ?></h1>
-                <p>Post your meeting details to the FlashZoom.</p>
-                <!-- Form -->
                 <div class="container">
+                    <div class="d-flex align-items-center mt-2">
+                        <img src="<?php echo $_SESSION['avatar']; ?>" class="rounded-circle mr-2" alt="profile photo">
+                        <h2>Hello <?php echo $_SESSION['user_title'] . ' ' . $_SESSION['user_firstName']; ?></h2>
+                    </div>
+                    <p class="py-2">Post your meeting details to the FlashZoom.</p>
+                    <!-- Form -->
                     <div class="row">
                         <div class="col-md-12">
                             <?php
@@ -221,7 +227,38 @@ if (isset($_POST['submit'])) {
                                 <input type="url" class="form-control" id="link" name="link" placeholder="Meeting Link">
                             </div>
                         </div>
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-2 col-form-label">Department/Group</label>
+                            <div class="col-sm-10">
+                                <select class="form-control custom-select mb-1" id="meetingGroup" name="meetingGroup">
+                                    <optgroup label="Departments">
+                                        <option value="Common" selected>Common</option>
+                                        <option value="ET">ET</option>
+                                        <option value="BST">BST</option>
+                                        <option value="ICT">ICT</option>
+                                    </optgroup>
+                                    <optgroup label="Groups">
+                                        <option value="Group 01">Group 01</option>
+                                        <option value="Group 02">Group 02</option>
+                                        <option value="Group 03">Group 03</option>
+                                        <option value="Group 04">Group 04</option>
+                                        <option value="Group 05">Group 05</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
 
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-2">Activate</div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" checked id="activate" name="activate" value="1">
+                                    <label class="form-check-label" for="activate">
+                                        I want to activate this when I'm publishing
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row mb-3">
                             <div class="col-sm-2">Host Name</div>
                             <div class="col-sm-10">
@@ -250,6 +287,17 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
     </div>
+
+    <!-- dispaly time on navbar -->
+    <script type="text/javascript">
+        let clockElement = document.getElementById('time');
+
+        function clock() {
+            clockElement.textContent = new Date().toLocaleString();
+        }
+
+        setInterval(clock, 1000);
+    </script>
 
     <!-- Core theme JS-->
     <script src="../../js/dashboard.js"></script>

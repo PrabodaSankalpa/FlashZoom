@@ -42,9 +42,9 @@ if (isset($_POST['submit'])) {
       $_SESSION['user_id'] = $user['ID'];
       $_SESSION['user_firstName'] = $user['First_Name'];
       $_SESSION['user_lastName'] = $user['Last_Name'];
+      $_SESSION['avatar'] = $user['Avatar_URL'];
 
       header('Location: ./dashboard/user/dashboard.php');
-      
     } else {
       //Admin table Check
       $query = "SELECT * FROM admins WHERE email = '{$email}' AND password = '{$hashed_password}' LIMIT 1;";
@@ -59,6 +59,7 @@ if (isset($_POST['submit'])) {
           $_SESSION['user_title'] = $user['Title'];
           $_SESSION['user_firstName'] = $user['First_Name'];
           $_SESSION['user_lastName'] = $user['Last_Name'];
+          $_SESSION['avatar'] = $user['Avatar_URL'];
 
           header('Location: ./dashboard/admin/dashboard.php');
         } else {
