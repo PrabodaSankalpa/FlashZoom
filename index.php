@@ -2,6 +2,7 @@
 //Session Start
 session_start();
 
+
 //Connection
 $connection = mysqli_connect("localhost", "root", "", "flashzoom");
 
@@ -9,6 +10,13 @@ $connection = mysqli_connect("localhost", "root", "", "flashzoom");
 if (mysqli_connect_errno()) {
   echo "Failed to connect to the database: " . $mysqli->connect_error;
   exit();
+}
+
+//check user already logged in..
+if (isset($_SESSION['whoAmI']) && $_SESSION['whoAmI'] == 'lecturer') {
+  header('Location: ./dashboard/admin/dashboard.php');
+} elseif (isset($_SESSION['whoAmI']) && $_SESSION['whoAmI'] == 'student') {
+  header('Location: ./dashboard/user/dashboard.php');
 }
 
 //Check the user click the submit
@@ -39,6 +47,7 @@ if (isset($_POST['submit'])) {
       $user = mysqli_fetch_assoc($result_set);
 
       //Session Variables
+      $_SESSION['whoAmI'] = 'student';
       $_SESSION['user_id'] = $user['ID'];
       $_SESSION['user_firstName'] = $user['First_Name'];
       $_SESSION['user_lastName'] = $user['Last_Name'];
@@ -55,6 +64,7 @@ if (isset($_POST['submit'])) {
           $user = mysqli_fetch_assoc($result_set);
 
           //Session Variables
+          $_SESSION['whoAmI'] = 'lecturer';
           $_SESSION['user_id'] = $user['ID'];
           $_SESSION['user_title'] = $user['Title'];
           $_SESSION['user_firstName'] = $user['First_Name'];

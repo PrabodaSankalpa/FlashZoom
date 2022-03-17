@@ -3,7 +3,7 @@
 session_start();
 
 //Check the user is logged in
-if (!isset($_SESSION['user_id'])) {
+if ($_SESSION['whoAmI'] != 'student') {
     header('Location: ../../index.php');
 }
 
@@ -47,7 +47,13 @@ if (!isset($_SESSION['user_id'])) {
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                            <li class="nav-item"><span class="nav-link" id="time">Time</span></li>
+                            <li class="nav-item">
+                                <div class="nav-link" id="time">
+                                    <div class="spinner-border text-primary spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </li>
                             <li class="nav-item"><a class="nav-link" href="../../routes/logout.php"><i class="fa-solid fa-power-off"></i> Logout</a></li>
 
                         </ul>
@@ -85,8 +91,10 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                     <!-- cards -->
                     <div class="d-flex flex-wrap justify-content-around" id="linkCard">
-
-                    </div>
+                        <div class="spinner-border text-dark" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div> <!-- cards-->
                 </div>
             </div>
         </div>
