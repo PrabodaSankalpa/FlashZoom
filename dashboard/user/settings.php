@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
 
         $hashed_password = sha1($password);
 
-        $query = "UPDATE admins SET password = '{$hashed_password}' LIMIT 1;";
+        $query = "UPDATE users SET password = '{$hashed_password}' LIMIT 1;";
         $result_set = mysqli_query($connection, $query);
 
         if (mysqli_affected_rows($connection) > 0) {
@@ -66,9 +66,9 @@ if (isset($_POST['submit'])) {
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light"><strong>FlashZoom</strong></div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./dashboard.php"><i class="fa-solid fa-plus"></i> Add meetings</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./dashboard.php"><i class="fa-solid fa-video"></i> Meetings</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="far fa-bell"></i> Notifications&nbsp;&nbsp;<span class="badge badge-pill badge-danger">0</span></a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="fa-solid fa-user-graduate"></i> Student Info</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="fas fa-birthday-cake"></i> Birthdays</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
             </div>
         </div>
@@ -98,7 +98,7 @@ if (isset($_POST['submit'])) {
                 <div class="container">
                     <div class="d-flex align-items-center mt-2">
                         <img src="<?php echo $_SESSION['avatar']; ?>" class="rounded-circle mr-2" alt="profile photo">
-                        <h2>Hello <?php echo $_SESSION['user_title'] . ' ' . $_SESSION['user_firstName']; ?></h2>
+                        <h2>Hi, <?php echo $_SESSION['user_firstName']; ?></h2>
                     </div>
 
                     <h4 class="mt-5">Change My Password</h4>
