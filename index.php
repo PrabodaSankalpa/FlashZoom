@@ -94,6 +94,7 @@ if (isset($_POST['submit'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="./css/style.css" />
   <title>FlashZoom - Work like the Flash</title>
 </head>
@@ -118,107 +119,116 @@ if (isset($_POST['submit'])) {
       </p>
     </div>
   </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <?php
-        if (!empty($errors)) {
-          echo '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">';
-          echo '<strong>There is error(s) here!</strong><br>';
-          echo '<ol>';
-          foreach ($errors as $error) {
-            echo '<li>' . $error . '</li>';
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <?php
+          if (!empty($errors)) {
+            echo '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">';
+            echo '<strong>There is error(s) here!</strong><br>';
+            echo '<ol>';
+            foreach ($errors as $error) {
+              echo '<li>' . $error . '</li>';
+            }
+            echo '</ol>';
+            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+            echo '<span aria-hidden="true">&times;</span>';
+            echo '</button>';
+            echo '</div>';
           }
-          echo '</ol>';
-          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-          echo '<span aria-hidden="true">&times;</span>';
-          echo '</button>';
-          echo '</div>';
-        }
-        ?>
+          ?>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="register-area animate__animated animate__bounceIn">
+            <h2>Why are you waiting for..</h2>
+            <p>Register today and do your work like the Flash</p>
+            <button type="button" class="btn btn-light btn-lg" data-toggle="modal" data-target="#regModal"><i class="fas fa-user-graduate"></i> Get Started</button>
+          </div>
+
+          <?php
+          if (isset($_GET['user_added']) && $_GET['user_added'] == true) {
+            echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">';
+            echo '<strong>Registration successfully🎉, Please Login...</strong><br>';
+            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+            echo '<span aria-hidden="true">&times;</span>';
+            echo '</button>';
+            echo '</div>';
+          }
+
+          ?>
+          <div class="icon-list">
+            <div class="item animate__animated animate__flipInX">
+              <i class="fas fa-tachometer-alt fa-3x"></i><span>Speed</span>
+            </div>
+            <div class="item item animate__animated animate__flipInX">
+              <i class="fas fa-rocket fa-3x"></i><span>Quick Access</span>
+            </div>
+            <div class="item item animate__animated animate__flipInX">
+              <i class="fas fa-clock fa-3x"></i><span>Anytime</span>
+            </div>
+            <div class="item item animate__animated animate__flipInX">
+              <i class="fas fa-map-marker-alt fa-3x"></i><span>Anywhere</span>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <!--Col end-->
+
+        <div class="col-md-6 animate__animated animate__fadeInRight" id="login-area">
+          <h2>Login here...</h2>
+          <p>Please enter your email and password and click the login button.</p>
+          <form action="./index.php" method="post" class="p-3 form-border">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please choose a username.
+              </div>
+              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please choose a username.
+              </div>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+              <label class="form-check-label" for="exampleCheck1">Remember me</label>
+            </div>
+            <button type="submit" name="submit" class="btn btn-outline-primary mt-3"><i class="fas fa-sign-in-alt"></i> Login</button>
+          </form>
+        </div>
+        <!--Col-end-->
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="register-area">
-          <h2>Why are you waiting for..</h2>
-          <p>Register today and do your work like the Flash</p>
-          <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#regModal"><i class="fas fa-user-graduate"></i> Get Started</button>
-        </div>
-
-        <?php
-        if (isset($_GET['user_added']) && $_GET['user_added'] == true) {
-          echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">';
-          echo '<strong>Registration successfully🎉, Please Login...</strong><br>';
-          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-          echo '<span aria-hidden="true">&times;</span>';
-          echo '</button>';
-          echo '</div>';
-        }
-
-        ?>
-        <div class="icon-list">
-          <div class="item">
-            <i class="fas fa-tachometer-alt fa-3x"></i><span>Speed</span>
-          </div>
-          <div class="item">
-            <i class="fas fa-rocket fa-3x"></i><span>Quick Access</span>
-          </div>
-          <div class="item">
-            <i class="fas fa-clock fa-3x"></i><span>Anytime</span>
-          </div>
-          <div class="item">
-            <i class="fas fa-map-marker-alt fa-3x"></i><span>Anywhere</span>
-          </div>
-        </div>
-        <hr>
-      </div>
-      <!--Col end-->
-
-      <div class="col-md-6" id="login-area">
-        <h2>Login here...</h2>
-        <p>Please enter your email and password and click the login button.</p>
-        <form action="./index.php" method="post" class="p-3 form-border">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please choose a username.
-            </div>
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please choose a username.
-            </div>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-            <label class="form-check-label" for="exampleCheck1">Remember me</label>
-          </div>
-          <button type="submit" name="submit" class="btn btn-outline-primary mt-3"><i class="fas fa-sign-in-alt"></i> Login</button>
-        </form>
-      </div>
-      <!--Col-end-->
+    <!--container-->
+    <div class="wave-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#0099ff" fill-opacity="1" d="M0,128L48,133.3C96,139,192,149,288,176C384,203,480,245,576,245.3C672,245,768,203,864,181.3C960,160,1056,160,1152,176C1248,192,1344,224,1392,240L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+      </svg>
     </div>
+    <!--wave-container-->
+    <footer class="page-footer" style="background-color: #0099ff; margin-top: 100px;">
+      <!-- Copyright -->
+      <div class="footer-copyright text-center text-light p-3">
+        Made with ❤ by
+        <a class="text-light" href="#">Five Stack</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
   </div>
-  <!--container-->
-  <footer class="bg-light text-center text-lg-start mt-5">
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      Made with ❤ by
-      <a class="text-dark" href="#">Five Stack</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
+  <!-- content -->
 
   <!-- registration modal -->
   <div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

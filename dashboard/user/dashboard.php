@@ -22,6 +22,7 @@ if ($_SESSION['whoAmI'] != 'student') {
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="../../css/dashboard.css" rel="stylesheet" />
 
 </head>
@@ -114,7 +115,7 @@ if ($_SESSION['whoAmI'] != 'student') {
                     let output = '';
 
                     for (let i in data) {
-                        output += '<div class="card text-white bg-dark m-2">' +
+                        output += '<div class="card text-white bg-dark m-2 animate__animated animate__zoomIn">' +
                             '<div class="card-header">' + data[i].meetingGroup + '</div>' +
                             '<div class="card-body">' +
                             '<h5 class="card-title">' + data[i].Title + '</h5>' +
@@ -148,7 +149,7 @@ if ($_SESSION['whoAmI'] != 'student') {
                     let output = '';
 
                     for (let i in data) {
-                        output += '<div class="card text-white bg-dark m-2">' +
+                        output += '<div class="card text-white bg-dark m-2 animate__animated animate__fadeIn">' +
                             '<div class="card-header">' + data[i].meetingGroup + '</div>' +
                             '<div class="card-body">' +
                             '<h5 class="card-title">' + data[i].Title + '</h5>' +
