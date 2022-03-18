@@ -71,9 +71,10 @@ if (isset($_POST['submit'])) {
         }
         $meetingGroup = mysqli_real_escape_string($connection, $_POST['meetingGroup']);
         $isActive = mysqli_real_escape_string($connection, $_POST['activate']);
+        $hostID = $_SESSION['user_id'];
 
         //Prepare a Query
-        $query = "INSERT INTO zoomlinks (Title, Start_Time, End_Time, Date, Schedule, Meeting_ID, Passcode, Link, Host_Name, meetingGroup, is_Active) VALUES ('{$title}', '{$startTime}', '{$endTime}', '{$date}', '{$schedule}', '{$meetingID}', '{$passcode}', '{$link}', '{$hostName}', '{$meetingGroup}', '{$isActive}');";
+        $query = "INSERT INTO zoomlinks (Title, Start_Time, End_Time, Date, Schedule, Meeting_ID, Passcode, Link, Host_ID, Host_Name, meetingGroup, is_Active) VALUES ('{$title}', '{$startTime}', '{$endTime}', '{$date}', '{$schedule}', '{$meetingID}', '{$passcode}', '{$link}', '{$hostID}', '{$hostName}', '{$meetingGroup}', '{$isActive}');";
         $result_set = mysqli_query($connection, $query);
 
         if ($result_set) {
@@ -108,6 +109,7 @@ if (isset($_POST['submit'])) {
             <div class="sidebar-heading border-bottom bg-light"><strong>FlashZoom</strong></div>
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./dashboard.php"><i class="fa-solid fa-plus"></i> Add meetings</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./myMeetings.php"><i class="fa-solid fa-video"></i> My meetings</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="far fa-bell"></i> Notifications&nbsp;&nbsp;<span class="badge badge-pill badge-danger">0</span></a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="fa-solid fa-user-graduate"></i> Student Info</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
