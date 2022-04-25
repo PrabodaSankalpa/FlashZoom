@@ -100,7 +100,9 @@ if ($_SESSION['whoAmI'] != 'lecturer') {
     <!--Meeting card loader-->
     <script>
         //When window load
-        window.onload = function() {
+        window.onload = getData();
+
+        function getData() {
             let xhr = new XMLHttpRequest();
             let endPoint = './getMyMeetings.php';
             xhr.open('GET', endPoint, true);
@@ -142,7 +144,7 @@ if ($_SESSION['whoAmI'] != 'lecturer') {
                                 '<li>Meeting ID : ' + data[i].Meeting_ID + '</li>' +
                                 '<li>Passcode : ' + data[i].Passcode + '</li>' +
                                 '</ul>' +
-                                '<button class="btn btn-success" id="activate"><i class="fa-solid fa-eye"></i> Publish</button>' +
+                                '<button class="btn btn-success" id="activate" onclick="activeOne(' + data[i].ID + ')"><i class="fa-solid fa-eye"></i> Publish</button>' +
                                 '<a href="' + data[i].Link + '" target="_blank" class="btn btn-primary mx-2"><i class="fa-solid fa-video"></i></a>' +
                                 '<button class="btn btn-danger" id="delete" onclick="deleteOne(' + data[i].ID + ')"><i class="fa-solid fa-trash-can"></i></button>' +
                                 '</div>' +
@@ -158,7 +160,7 @@ if ($_SESSION['whoAmI'] != 'lecturer') {
     </script>
     <!--Meeting card loader-->
 
-    <!-- activate meeting-->
+    <!-- delete meeting-->
     <script>
         function deleteOne(cardID) {
             let xhr = new XMLHttpRequest();
@@ -167,13 +169,48 @@ if ($_SESSION['whoAmI'] != 'lecturer') {
 
             xhr.onload = function() {
                 if (this.status == 200) {
+                    getData();
                     let notification = `
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Successfully deleted. YHA! I know it's still there, but trust me, it's gone.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    Successfully deleted.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>                    
                     `;
                     document.getElementById("notify").innerHTML = notification;
+                    //location.reload();
+                } else {
+                    let notification = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Error - Something went wrong!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    `;
+                    document.getElementById("notify").innerHTML = notification;
+                }
+            }
+            xhr.send();
+
+        }
+    </script>
+
+    <!-- activate meeting-->
+    <script>
+        function activeOne(cardID) {
+            let xhr = new XMLHttpRequest();
+            let endPoint = './activeMeeting.php?cardID=' + cardID;
+            xhr.open('GET', endPoint, true);
+
+            xhr.onload = function() {
+                if (this.status == 200) {
+                    getData();
+                    let notification = `
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Successfully Published.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>                    
+                    `;
+                    document.getElementById("notify").innerHTML = notification;
+                    //location.reload();
                 } else {
                     let notification = `
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">

@@ -9,9 +9,11 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: ../../index.php');
 }
 
+//errors array
+$errors = array();
+
 if (isset($_POST['submit'])) {
-    //errors array
-    $errors = array();
+
 
     //Check password is correct
     if (!isset($_POST['password']) || strlen(trim($_POST['password'])) < 1) {
@@ -41,6 +43,32 @@ if (isset($_POST['submit'])) {
         } else {
             $errors[] = "Someting went wrong!";
         }
+    }
+}
+
+// activate process
+if (isset($_POST['activate'])) {
+    $ID = $_POST['activate'];
+    $query = "UPDATE admins SET is_Accepted = 1 WHERE ID = ${ID} LIMIT 1;";
+    $result_set = mysqli_query($connection, $query);
+
+    if (mysqli_affected_rows($connection) > 0) {
+        header('Location: ./settings.php?change=success');
+    } else {
+        $errors[] = "Someting went wrong!";
+    }
+}
+
+// delete process
+if (isset($_POST['remove'])) {
+    $ID = $_POST['remove'];
+    $query = "UPDATE admins SET is_Deleted = 1 WHERE ID = ${ID} LIMIT 1;";
+    $result_set = mysqli_query($connection, $query);
+
+    if (mysqli_affected_rows($connection) > 0) {
+        header('Location: ./settings.php?change=success');
+    } else {
+        $errors[] = "Someting went wrong!";
     }
 }
 ?>
@@ -111,7 +139,7 @@ if (isset($_POST['submit'])) {
 
                             if (isset($_GET['change']) && ($_GET['change'] == 'success')) {
                                 echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">';
-                                echo '<strong>Password change successful!</strong><br>';
+                                echo '<strong>Successful!</strong><br>';
                                 echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
                                 echo '<span aria-hidden="true">&times;</span>';
                                 echo '</button>';
@@ -152,7 +180,41 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                     </form>
+                    <!-- admin activate table -->
+                    <h4 class="mt-5">Pending Admin List</h4>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">email</th>
+                                <th scope="col">WhatsApp</th>
+                                <th scope="col">Activate / Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
 
+                            $query = "SELECT * FROM admins WHERE is_Accepted = 0 AND is_Deleted = 0;";
+                            $result_set = mysqli_query($connection, $query);
+
+                            if (mysqli_num_rows($result_set) > 0) {
+                                while ($row = mysqli_fetch_assoc($result_set)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["Title"] . " " . $row["First_Name"] . " " . $row["Last_Name"] . "</td>";
+                                    echo "<td>" . $row["email"] . "</td>";
+                                    echo "<td>" . $row["WhatsApp"] . "</td>";
+                                    echo "<td><form action = 'settings.php' method = 'POST'><button class = 'btn btn-warning' name = 'activate' id = 'activate' value = '" . $row["ID"] . "'><i class='fa-solid fa-check'></i></button> <button class = 'btn btn-danger' name = 'remove' id = 'remove' value = '" . $row["ID"] . "'><i class='fa-solid fa-ban'></i></button></form></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr>";
+                                echo "<th>No data founded!</th>";
+                                echo "</tr>";
+                            }
+
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
