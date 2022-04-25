@@ -48,22 +48,26 @@ if (isset($_POST['submit'])) {
       header('Location: ./dashboard/user/dashboard.php');
     } else {
       //Admin table Check
-      $query = "SELECT * FROM admins WHERE email = '{$email}' AND password = '{$hashed_password}' LIMIT 1;";
+      $query = "SELECT * FROM admins WHERE email = '{$email}' AND password = '{$hashed_password}' AND is_Deleted = 0 LIMIT 1;";
       $result_set = mysqli_query($connection, $query);
 
       if ($result_set) {
         if (mysqli_num_rows($result_set) == 1) {
           $user = mysqli_fetch_assoc($result_set);
 
-          //Session Variables
-          $_SESSION['whoAmI'] = 'lecturer';
-          $_SESSION['user_id'] = $user['ID'];
-          $_SESSION['user_title'] = $user['Title'];
-          $_SESSION['user_firstName'] = $user['First_Name'];
-          $_SESSION['user_lastName'] = $user['Last_Name'];
-          $_SESSION['avatar'] = $user['Avatar_URL'];
+          if ($user['Is_Accepted'] == 0) {
+            $errors[] = "Waiting for Admin Approval!";
+          } else {
+            //Session Variables
+            $_SESSION['whoAmI'] = 'lecturer';
+            $_SESSION['user_id'] = $user['ID'];
+            $_SESSION['user_title'] = $user['Title'];
+            $_SESSION['user_firstName'] = $user['First_Name'];
+            $_SESSION['user_lastName'] = $user['Last_Name'];
+            $_SESSION['avatar'] = $user['Avatar_URL'];
 
-          header('Location: ./dashboard/admin/dashboard.php');
+            header('Location: ./dashboard/admin/dashboard.php');
+          }
         } else {
           $errors[] = "email or password is Missing/Invalid!";
         }
