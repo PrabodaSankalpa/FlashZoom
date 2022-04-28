@@ -110,8 +110,8 @@ if (isset($_POST['submit'])) {
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./dashboard.php"><i class="fa-solid fa-plus"></i> Add meetings</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./myMeetings.php"><i class="fa-solid fa-video"></i> My meetings</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./notifications.php"><i class="far fa-bell"></i> Notifications&nbsp;&nbsp;<span class="badge badge-pill badge-danger">0</span></a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="fa-solid fa-user-graduate"></i> Student Info</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./notifications.php"><i class="far fa-bell"></i> Notifications</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./studentsInfo.php"><i class="fa-solid fa-user-graduate"></i> Student Info</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
             </div>
         </div>

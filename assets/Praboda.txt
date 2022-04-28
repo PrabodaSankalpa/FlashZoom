@@ -1,0 +1,16 @@
+Details
+
+First Name - Praboda
+Last Name - Sankalpa
+Gender - Male
+Date of Birth - 2022-04-25
+E-mail - dgprabodasankalpa@gmail.com
+Phone Number - 0774633510
+WhatsApp - 0774633510
+District - Open this select menu
+University - University of Sri Jayewardenepura
+Faculty - Faculty of Graduate Studies
+Batch Number - 5
+Index Number - ICT20928
+
+This is an auto-generated text file by FlashZoom.

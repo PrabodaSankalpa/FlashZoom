@@ -434,7 +434,7 @@ if (isset($_POST['submit'])) {
               <div class="col-md-12 mt-3">
                 <label for="district" class="form-label">District</label>
                 <select class="form-control form-select" name="district" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
+                  <option value="None" selected>Open this select menu</option>
                   <option value="Jaffna">Jaffna</option>
                   <option value="Kilinochchi">Kilinochchi</option>
                   <option value="Mannar">Mannar</option>
@@ -477,7 +477,7 @@ if (isset($_POST['submit'])) {
               <div class="col-md-6 mt-3">
                 <label for="faculty" class="form-label">Faculty</label>
                 <select class="form-control form-select" name="faculty" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
+                  <option value="None" selected>Open this select menu</option>
                   <option value="Faculty of Humanities & Social Sciences">Faculty of Humanities & Social Sciences</option>
                   <option value="Faculty of Applied Sciences">Faculty of Applied Sciences</option>
                   <option value="Faculty of Management Studies & Commerce">Faculty of Management Studies & Commerce</option>
