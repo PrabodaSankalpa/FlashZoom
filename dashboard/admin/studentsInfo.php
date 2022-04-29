@@ -149,6 +149,7 @@ if (isset($_POST["submit"])) {
                         if (isset($result) && mysqli_num_rows($result) > 0) {
 
                             $data = mysqli_fetch_assoc($result);
+                            $id = $data["ID"];
                             $fName = $data["First_Name"];
                             $lName = $data["Last_Name"];
                             $gender = $data["Gender"];
@@ -163,7 +164,7 @@ if (isset($_POST["submit"])) {
                             $batch = $data["Batch_No"];
                             $index = $data["Index_No"];
 
-                            echo '<p class="mt-5"><i>You can download this data as a text file if you need it.</i> <a href="../../assets/' . $fName . '.txt" download><i class="fa-solid fa-file-arrow-down"></i> Click here</a></p>';
+                            echo '<p class="mt-5"><i>You can download this data as a text file if you need it.</i> <a href="../../assets/' . $fName . '-FlashZoom.txt" onclick="fileDownload(' . $id . ')" download><i class="fa-solid fa-file-arrow-down"></i> Click here</a></p>';
 
                             if ($verify == 1) {
                                 $badge = '<span class="badge badge-success">Verify</span>';
@@ -224,8 +225,8 @@ if (isset($_POST["submit"])) {
                                 . '</tbody>'
                                 . '</table>';
                             echo $table;
-
-                            $textContent = "Details"
+                            
+                            $textContent = "---- Details ----"
                                 . "\n"
                                 . "\nFirst Name - " . $fName
                                 . "\nLast Name - " . $lName
@@ -240,18 +241,13 @@ if (isset($_POST["submit"])) {
                                 . "\nBatch Number - " . $batch
                                 . "\nIndex Number - " . $index
                                 . "\n"
-                                . "\nThis is an auto-generated text file by FlashZoom.";
+                                . "\n**This is an auto-generated text file by FlashZoom.**";
 
-                            $file = "../../assets/" . $fName . ".txt";
+                            $file = "../../assets/" . $fName . "-FlashZoom.txt";
                             $txt = fopen($file, "w") or die("Unable to open file!");
                             fwrite($txt, $textContent);
                             fclose($txt);
                         }
-                        // if (isset($_POST["submit"]) && $_POST["submit"] == "done") {
-                        //     $fileName = "../../assets/" . $fName . ".txt";
-                        //     unlink($fileName);
-                        // }
-
                         ?>
                     </div>
                 </div>
@@ -259,6 +255,19 @@ if (isset($_POST["submit"])) {
         </div>
     </div>
     <!-- delete text file -->
+    <script>
+        function fileDownload(ID) {
+            let xhr = new XMLHttpRequest();
+            let endPoint = './fileDownload.php?userID=' + ID;
+            xhr.open('GET', endPoint, true);
+            xhr.onload = function() {
+                if (this.status != 200) {
+                    console.log("Server error");
+                }
+            }
+            xhr.send();
+        }
+    </script>
 
     <!-- dispaly time on navbar -->
     <script type="text/javascript">
