@@ -85,7 +85,14 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta name="title" content="FlashZoom">
+  <meta name="description" content="This is a web application that allows you to manage your zoom links and notifications relevant to your university and department.">
+  <meta name="keywords" content="flashzoom, university of Sri Jayewardenepura, zoom, zoom links, first year project, five stack, flash zoom">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="language" content="English">
+  <meta name="author" content="Five Stack (Praboda, Isuru, Niroshani, Yeshani, and Deshani)">
+
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />

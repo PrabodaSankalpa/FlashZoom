@@ -14,10 +14,16 @@ if (!isset($_SESSION['user_id'])) {
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta name="title" content="FlashZoom">
+    <meta name="description" content="This is a web application that allows you to manage your zoom links and notifications relevant to your university and department.">
+    <meta name="keywords" content="flashzoom, university of Sri Jayewardenepura, zoom, zoom links, first year project, five stack, flash zoom">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="Five Stack (Praboda, Isuru, Niroshani, Yeshani, and Deshani)">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+
     <title>Birthdays - FlashZoom</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -32,7 +38,7 @@ if (!isset($_SESSION['user_id'])) {
             <div class="sidebar-heading border-bottom bg-light"><strong>FlashZoom</strong></div>
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./dashboard.php"><i class="fa-solid fa-video"></i> Meetings</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="far fa-bell"></i> Notifications</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./notifications.php"><i class="far fa-bell"></i> Notifications</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./birthdays.php"><i class="fas fa-birthday-cake"></i> Birthdays</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
             </div>
@@ -80,13 +86,13 @@ if (!isset($_SESSION['user_id'])) {
                             $date = date("d");
                             $query = "SELECT * FROM users;";
                             $result_set = mysqli_query($connection, $query);
-                            
+
 
                             if (mysqli_num_rows($result_set) > 0) {
                                 while ($row = mysqli_fetch_assoc($result_set)) {
                                     $bMonth = substr($row["DOB"], -5, -3);
                                     $bDate = substr($row["DOB"], -2);
-                                    if($month == $bMonth AND $date == $bDate){
+                                    if ($month == $bMonth and $date == $bDate) {
                                         echo "<tr>";
                                         echo "<td>" . $row["First_Name"] . " " . $row["Last_Name"] . "</td>";
                                         echo "<td>" . $row["WhatsApp"] . "</td>";

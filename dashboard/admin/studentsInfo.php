@@ -47,11 +47,17 @@ if (isset($_POST["submit"])) {
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta name="title" content="FlashZoom">
+    <meta name="description" content="This is a web application that allows you to manage your zoom links and notifications relevant to your university and department.">
+    <meta name="keywords" content="flashzoom, university of Sri Jayewardenepura, zoom, zoom links, first year project, five stack, flash zoom">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="Five Stack (Praboda, Isuru, Niroshani, Yeshani, and Deshani)">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Settings - FlashZoom</title>
+
+    <title>Students Info - FlashZoom</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="../../css/dashboard.css" rel="stylesheet" />
@@ -225,7 +231,7 @@ if (isset($_POST["submit"])) {
                                 . '</tbody>'
                                 . '</table>';
                             echo $table;
-                            
+
                             $textContent = "---- Details ----"
                                 . "\n"
                                 . "\nFirst Name - " . $fName

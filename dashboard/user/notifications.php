@@ -8,43 +8,7 @@ require '../../lib/db.php';
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../../index.php');
 }
-
-if (isset($_POST['submit'])) {
-    //errors array
-    $errors = array();
-
-    //Check password is correct
-    if (!isset($_POST['password']) || strlen(trim($_POST['password'])) < 1) {
-        $errors[] = "Password is Missing/Invalid!";
-    }
-
-    //Check password2 is correct
-    if (!isset($_POST['password2']) || strlen(trim($_POST['password2'])) < 1) {
-        $errors[] = "Comfirm Password is Missing/Invalid!";
-    }
-
-    if ($_POST['password'] != $_POST['password2']) {
-        $errors[] = "Passwords are not maching!";
-    }
-
-    if (empty($errors)) {
-        $password = mysqli_real_escape_string($connection, $_POST['password']);
-        $password2 = mysqli_real_escape_string($connection, $_POST['password2']);
-
-        $hashed_password = sha1($password);
-
-        $query = "UPDATE users SET password = '{$hashed_password}' LIMIT 1;";
-        $result_set = mysqli_query($connection, $query);
-
-        if (mysqli_affected_rows($connection) > 0) {
-            header('Location: ./settings.php?change=success');
-        } else {
-            $errors[] = "Someting went wrong!";
-        }
-    }
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,7 +23,7 @@ if (isset($_POST['submit'])) {
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>Settings - FlashZoom</title>
+    <title>Notifications - FlashZoom</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="../../css/dashboard.css" rel="stylesheet" />
@@ -73,9 +37,9 @@ if (isset($_POST['submit'])) {
             <div class="sidebar-heading border-bottom bg-light"><strong>FlashZoom</strong></div>
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./dashboard.php"><i class="fa-solid fa-video"></i> Meetings</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./notifications.php"><i class="far fa-bell"></i> Notifications</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./notifications.php"><i class="far fa-bell"></i> Notifications</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./birthdays.php"><i class="fas fa-birthday-cake"></i> Birthdays</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3 active" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="./settings.php"><i class="fas fa-user-cog"></i> Settings</a>
             </div>
         </div>
         <!-- Page content wrapper-->
@@ -107,62 +71,93 @@ if (isset($_POST['submit'])) {
                         <h2>Hi, <?php echo $_SESSION['user_firstName']; ?></h2>
                     </div>
 
-                    <h4 class="mt-5">Change My Password</h4>
-                    <!-- form -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- errors -->
-                            <?php
-
-                            if (isset($_GET['change']) && ($_GET['change'] == 'success')) {
-                                echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">';
-                                echo '<strong>Password change successful!</strong><br>';
-                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-                                echo '<span aria-hidden="true">&times;</span>';
-                                echo '</button>';
-                                echo '</div>';
-                            }
-
-
-                            if (!empty($errors)) {
-                                echo '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">';
-                                echo '<strong>There is error(s) here!</strong><br>';
-                                echo '<ol>';
-                                foreach ($errors as $error) {
-                                    echo '<li>' . $error . '</li>';
-                                }
-                                echo '</ol>';
-                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-                                echo '<span aria-hidden="true">&times;</span>';
-                                echo '</button>';
-                                echo '</div>';
-                            }
-                            ?>
-                        </div>
+                    <div class="my-5">
+                        <h3>Notifications</h3>
                     </div>
-                    <form action="./settings.php" method="POST">
-                        <div class="form-group row mb-3">
-                            <label for="password" class="col-md-2 col-sm-2 col-form-label">New Password</label>
-                            <div class="col-md-4 col-sm-10">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="New Password">
-                            </div>
-                            <label for="password2" class="col-md-2 col-sm-2 col-form-label">Comfirm Password</label>
-                            <div class="col-md-4 col-sm-10">
-                                <input type="password" class="form-control" id="password2" name="password2" placeholder="Comfirm Password">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-10">
-                                <button type="submit" name="submit" class="btn btn-primary"><i class="fa-solid fa-key"></i> Change my password</button>
-                            </div>
-                        </div>
-                    </form>
+                    <!-- All notifications here  -->
+                    <div>
+                        <?php
 
+                        //define total number of results you want per page  
+                        $results_per_page = 5;
+
+                        $query = "SELECT * FROM notifications;";
+                        $result = mysqli_query($connection, $query);
+
+                        $number_of_result = mysqli_num_rows($result);
+                        //determine the total number of pages available  
+                        $number_of_page = ceil($number_of_result / $results_per_page);
+
+                        //determine which page number visitor is currently on  
+                        if (!isset($_GET['page'])) {
+                            $page = 1;
+                        } else {
+                            $page = $_GET['page'];
+                        }
+
+                        //determine the sql LIMIT starting number for the results on the displaying page  
+                        $page_first_result = ($page - 1) * $results_per_page;
+
+                        $query = "SELECT notifications.Caption, notifications.Attention, notifications.Message, notifications.Date, notifications.Time, admins.Title, admins.First_Name, admins.Last_Name, admins.Avatar_URL FROM notifications INNER JOIN admins ON notifications.Author_ID=admins.ID ORDER BY notifications.ID DESC LIMIT " . $page_first_result . "," . $results_per_page . ";";
+                        $result_set = mysqli_query($connection, $query);
+
+
+
+                        if (mysqli_num_rows($result_set) == 0) {
+                            $errors[] = "No Notification Founded!";
+                        } else {
+                            while ($data = mysqli_fetch_assoc($result_set)) {
+                                $nCaption = $data['Caption'];
+                                $nAttention = $data['Attention'];
+                                $nMessage = $data['Message'];
+                                $nDate = $data['Date'];
+                                $nTime = $data['Time'];
+                                $nAuthor = $data['Title'] . ' ' . $data['First_Name'] . ' ' . $data['Last_Name'];
+                                $nAvatar = $data['Avatar_URL'];
+
+                                echo '<div class="card mb-3">';
+                                echo '<div class="card-header">';
+                                echo "Time: " . $nTime . " | Date: " . $nDate;
+                                echo '</div>';
+                                echo '<div class="card-body">';
+                                echo '<div class="d-flex align-items-center mb-3">';
+                                echo '<img src = "';
+                                echo $nAvatar;
+                                echo '" alt = "Profile Photo" class="rounded-circle">';
+                                echo '<p class="mx-3">';
+                                echo $nAuthor;
+                                echo '</p>';
+                                if ($nAttention == 'Low') {
+                                    echo '<p>| Attention: <span class="badge badge-pill badge-success">Low</span></p>';
+                                } elseif ($nAttention == 'High') {
+                                    echo '<p>| Attention: <span class="badge badge-pill badge-danger">High</span></p>';
+                                } else {
+                                    echo '<p>| Attention: <span class="badge badge-pill badge-warning">Medium</span></p>';
+                                }
+                                echo '</div>';
+                                echo '<h5>';
+                                echo $nCaption;
+                                echo '</h5>';
+                                echo '<p>';
+                                echo $nMessage;
+                                echo '</p>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                            //display the link of the pages in URL 
+                            echo '<nav aria-label="Page navigation example">';
+                            echo '<ul class="pagination">';
+                            for ($page = 1; $page <= $number_of_page; $page++) {
+                                echo '<li class="page-item"><a class="page-link" href = "notifications.php?page=' . $page . '">' . $page . '</a></li>';
+                            }
+                            echo '</ul></nav>';
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- dispaly time on navbar -->
     <script type="text/javascript">
         let clockElement = document.getElementById('time');
